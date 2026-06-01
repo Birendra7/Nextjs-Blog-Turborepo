@@ -1,0 +1,45 @@
+# dependencies
+node_modules/
+**/node_modules/
+
+# build outputs
+dist/
+**/dist/
+build/
+**/build/
+.next/
+**/.next/
+out/
+**/out/
+
+# turborepo
+.turbo/
+**/.turbo/
+
+# env
+.env
+.env.*
+!.env.example
+
+# prisma / sqlite
+**/generated/prisma/
+**/*.db
+**/*.db-journal
+
+# logs & OS
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/settings.json
+
+# test coverage
+coverage/
+**/coverage/
+
+# misc
+*.tsbuildinfo
+.vercel/

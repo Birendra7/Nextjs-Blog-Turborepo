@@ -30,7 +30,7 @@ async function main() {
     title: faker.lorem.sentence(),
     slug: generateSlug(faker.lorem.sentence()),
     content: faker.lorem.paragraphs(3),
-    thumbnail: faker.image.urlLoremFlickr(),
+    thumbnail: faker.image.urlPicsumPhotos(),
     authorId: faker.number.int({ min: 1, max: 10 }),
     published: true,
   }));
@@ -45,6 +45,11 @@ async function main() {
               data: Array.from({ length: 20 }).map(() => ({
                 content: faker.lorem.sentence(),
                 authorId: faker.number.int({ min: 1, max: 10 }),
+                thumbnail: faker.image.urlPicsumPhotos(),
+                published: true,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            
               })),
             },
           },

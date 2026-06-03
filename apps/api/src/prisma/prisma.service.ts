@@ -1,6 +1,12 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
-import { PrismaClient } from '../../generated/prisma/client';
+import { createRequire } from 'node:module';
+import { join } from 'node:path';
+
+const prismaRequire = createRequire(__filename);
+const { PrismaClient } = prismaRequire(
+  join(__dirname, '../../../generated/prisma/client'),
+) as typeof import('../../generated/prisma/client');
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {

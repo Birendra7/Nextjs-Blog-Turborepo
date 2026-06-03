@@ -14,10 +14,17 @@ datasource db {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  posts    Post[]
-  comments Comment[]
-  likes    Like[]
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  bio       String?
+  avatar    String?
+  password  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  posts     Post[]
+  comments  Comment[]
+  likes     Like[]
 }
 
 model Post {

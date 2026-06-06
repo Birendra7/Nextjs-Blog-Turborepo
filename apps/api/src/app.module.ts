@@ -5,6 +5,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { PostModule } from './post/post.module';
+import { UserModule } from './user/user.module';
+import { CommentModule } from './comment/comment.module';
+import { TagModule } from './tag/tag.module';
+import { LikeModule } from './like/like.module';
+import { TagModule } from './tag/tag.module';
 
 @Module({
   imports: [
@@ -17,6 +22,10 @@ import { PostModule } from './post/post.module';
     }),
     PrismaModule,
     PostModule,
+    UserModule,
+    CommentModule,
+    TagModule,
+    LikeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

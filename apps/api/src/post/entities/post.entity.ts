@@ -1,14 +1,12 @@
-import {ObjectType, Field, Int} from '@nestjs/graphql'
+import {ObjectType, Field, Int} from '@nestjs/graphql';
 
 @ObjectType()
-
 export class post {
     @Field(()=>Int)
-
-    id: number;
+    id!: number;
 
     @Field()
-    title: string;
+    title!: string;
 
     @Field({nullable:true})
     slug?: string;
@@ -17,15 +15,15 @@ export class post {
     thumbnail?:string;
 
     @Field()
-    content:string;
+    content!:string;
 
     @Field(()=>Boolean)
-    published: boolean;
+    published!: boolean;
 
     @Field()
-    createAt: Date;
+    createAt!: Date;
 
     @Field()
-    updateAt: Date;
+    updateAt!: Date;
 
 }

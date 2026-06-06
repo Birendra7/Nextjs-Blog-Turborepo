@@ -9,7 +9,6 @@ import { UserModule } from './user/user.module';
 import { CommentModule } from './comment/comment.module';
 import { TagModule } from './tag/tag.module';
 import { LikeModule } from './like/like.module';
-import { TagModule } from './tag/tag.module';
 
 @Module({
   imports: [

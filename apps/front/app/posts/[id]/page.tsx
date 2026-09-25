@@ -21,6 +21,15 @@ type PostDetailProps = {
   params: Promise<{ id: string }>;
 };
 
+function getAuthHeaders() {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('blog_token') : null;
+
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+}
+
 export default function PostDetailPage({ params }: PostDetailProps) {
   const [id, setId] = useState<string>('');
   const [post, setPost] = useState<Post | null>(null);
@@ -105,9 +114,15 @@ export default function PostDetailPage({ params }: PostDetailProps) {
   async function handleCreateComment() {
     if (!commentText.trim()) return;
 
+    const token = localStorage.getItem('blog_token');
+    if (!token) {
+      setStatus('Please log in to add a comment.');
+      return;
+    }
+
     const res = await fetch('http://localhost:8000/graphql', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify({
         query: `
           mutation CreateComment($createCommentInput: CreateCommentInput!) {
@@ -140,9 +155,15 @@ export default function PostDetailPage({ params }: PostDetailProps) {
   }
 
   async function handleDeletePost() {
+    const token = localStorage.getItem('blog_token');
+    if (!token) {
+      setStatus('Please log in to delete this post.');
+      return;
+    }
+
     const res = await fetch('http://localhost:8000/graphql', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify({
         query: `
           mutation RemovePost($id: Int!) {
@@ -164,9 +185,15 @@ export default function PostDetailPage({ params }: PostDetailProps) {
   }
 
   async function handleUpdatePost() {
+    const token = localStorage.getItem('blog_token');
+    if (!token) {
+      setStatus('Please log in to update this post.');
+      return;
+    }
+
     const res = await fetch('http://localhost:8000/graphql', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify({
         query: `
           mutation UpdatePost($id: Int!, $updatePostDto: UpdatePostDto!) {

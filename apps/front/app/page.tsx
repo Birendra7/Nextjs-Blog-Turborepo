@@ -4,16 +4,17 @@ type Post = {
   content: string;
   slug?: string | null;
   published: boolean;
-  createAt?: string;
-  updateAt?: string;
+};
+
+type Tag = {
+  id: number;
+  name: string;
 };
 
 async function getPosts(): Promise<Post[]> {
-  const res = await fetch("http://localhost:8000/graphql", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+  const res = await fetch('http://localhost:8000/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       query: `
         {
@@ -27,7 +28,7 @@ async function getPosts(): Promise<Post[]> {
         }
       `,
     }),
-    cache: "no-store",
+    cache: 'no-store',
   });
 
   if (!res.ok) {
@@ -38,8 +39,33 @@ async function getPosts(): Promise<Post[]> {
   return json?.data?.posts ?? [];
 }
 
+async function getTags(): Promise<Tag[]> {
+  const res = await fetch('http://localhost:8000/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: `
+        {
+          tags {
+            id
+            name
+          }
+        }
+      `,
+    }),
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    return [];
+  }
+
+  const json = await res.json();
+  return json?.data?.tags ?? [];
+}
+
 export default async function Home() {
-  const posts = await getPosts();
+  const [posts, tags] = await Promise.all([getPosts(), getTags()]);
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
@@ -69,6 +95,21 @@ export default async function Home() {
           </div>
         </div>
 
+        <div className="mb-8 flex flex-wrap gap-3">
+          {tags.length > 0 ? (
+            tags.map((tag) => (
+              <span
+                key={tag.id}
+                className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-700"
+              >
+                #{tag.name}
+              </span>
+            ))
+          ) : (
+            <span className="text-sm text-slate-500">No tags yet.</span>
+          )}
+        </div>
+
         <div className="grid gap-6 md:grid-cols-3">
           {posts.length > 0 ? (
             posts.map((post) => (
@@ -77,7 +118,7 @@ export default async function Home() {
                 className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
               >
                 <div className="mb-4 flex items-center justify-between text-xs uppercase tracking-wide text-slate-500">
-                  <span>{post.published ? "Published" : "Draft"}</span>
+                  <span>{post.published ? 'Published' : 'Draft'}</span>
                   <span>#{post.id}</span>
                 </div>
                 <h2 className="mb-3 text-2xl font-semibold text-slate-900">{post.title}</h2>
@@ -85,7 +126,7 @@ export default async function Home() {
                   {post.content}
                 </p>
                 <div className="flex items-center justify-between border-t border-slate-200 pt-4 text-sm text-slate-500">
-                  <span>{post.slug ?? "untitled-post"}</span>
+                  <span>{post.slug ?? 'untitled-post'}</span>
                   <a href={`/posts/${post.id}`} className="font-medium text-indigo-600 hover:text-indigo-500">
                     Read more →
                   </a>

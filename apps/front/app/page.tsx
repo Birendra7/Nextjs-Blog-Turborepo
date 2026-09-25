@@ -4,6 +4,7 @@ type Post = {
   content: string;
   slug?: string | null;
   published: boolean;
+  tags?: { id: number; name: string }[];
 };
 
 type Tag = {
@@ -24,6 +25,10 @@ async function getPosts(): Promise<Post[]> {
             content
             slug
             published
+            tags {
+              id
+              name
+            }
           }
         }
       `,
@@ -64,8 +69,17 @@ async function getTags(): Promise<Tag[]> {
   return json?.data?.tags ?? [];
 }
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: Promise<{ tag?: string }> | { tag?: string };
+}) {
+  const resolvedSearchParams = searchParams ? await Promise.resolve(searchParams) : {};
+  const selectedTag = resolvedSearchParams.tag ?? '';
   const [posts, tags] = await Promise.all([getPosts(), getTags()]);
+  const filteredPosts = selectedTag
+    ? posts.filter((post) => post.tags?.some((tag) => tag.name.toLowerCase() === selectedTag.toLowerCase()))
+    : posts;
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
@@ -95,24 +109,44 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="mb-8 flex flex-wrap gap-3">
+        <div className="mb-8 flex flex-wrap items-center gap-3">
+          <a
+            href="/"
+            className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
+              !selectedTag
+                ? 'bg-slate-900 text-white'
+                : 'border border-slate-300 bg-white text-slate-700 hover:border-slate-400'
+            }`}
+          >
+            All posts
+          </a>
+
           {tags.length > 0 ? (
-            tags.map((tag) => (
-              <span
-                key={tag.id}
-                className="rounded-full border border-indigo-200 bg-indigo-50 px-3 py-1.5 text-sm font-medium text-indigo-700"
-              >
-                #{tag.name}
-              </span>
-            ))
+            tags.map((tag) => {
+              const isActive = selectedTag.toLowerCase() === tag.name.toLowerCase();
+
+              return (
+                <a
+                  key={tag.id}
+                  href={isActive ? '/' : `/?tag=${encodeURIComponent(tag.name)}`}
+                  className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${
+                    isActive
+                      ? 'border-indigo-700 bg-indigo-700 text-white'
+                      : 'border-indigo-200 bg-indigo-50 text-indigo-700 hover:border-indigo-300'
+                  }`}
+                >
+                  #{tag.name}
+                </a>
+              );
+            })
           ) : (
             <span className="text-sm text-slate-500">No tags yet.</span>
           )}
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {posts.length > 0 ? (
-            posts.map((post) => (
+          {filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
               <article
                 key={post.id}
                 className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
@@ -125,6 +159,16 @@ export default async function Home() {
                 <p className="mb-4 line-clamp-4 text-sm leading-7 text-slate-600">
                   {post.content}
                 </p>
+                <div className="mb-4 flex flex-wrap gap-2">
+                  {(post.tags ?? []).map((tag) => (
+                    <span
+                      key={`${post.id}-${tag.id}`}
+                      className="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-medium text-slate-600"
+                    >
+                      #{tag.name}
+                    </span>
+                  ))}
+                </div>
                 <div className="flex items-center justify-between border-t border-slate-200 pt-4 text-sm text-slate-500">
                   <span>{post.slug ?? 'untitled-post'}</span>
                   <a href={`/posts/${post.id}`} className="font-medium text-indigo-600 hover:text-indigo-500">
@@ -135,7 +179,9 @@ export default async function Home() {
             ))
           ) : (
             <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-slate-600 md:col-span-3">
-              No posts have been published yet. Connect the API and create your first post.
+              {selectedTag
+                ? `No posts found for #${selectedTag}. Try another tag.`
+                : 'No posts have been published yet. Connect the API and create your first post.'}
             </div>
           )}
         </div>

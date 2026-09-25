@@ -1,29 +1,32 @@
-import {ObjectType, Field, Int} from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Tag } from '../../tag/entities/tag.entity';
 
 @ObjectType()
 export class post {
-    @Field(()=>Int)
-    id!: number;
+  @Field(() => Int)
+  id!: number;
 
-    @Field()
-    title!: string;
+  @Field()
+  title!: string;
 
-    @Field({nullable:true})
-    slug?: string;
+  @Field({ nullable: true })
+  slug?: string;
 
-    @Field({nullable:true})
-    thumbnail?:string;
+  @Field({ nullable: true })
+  thumbnail?: string;
 
-    @Field()
-    content!:string;
+  @Field()
+  content!: string;
 
-    @Field(()=>Boolean)
-    published!: boolean;
+  @Field(() => Boolean)
+  published!: boolean;
 
-    @Field()
-    createAt!: Date;
+  @Field(() => [Tag], { nullable: true })
+  tags?: Tag[];
 
-    @Field()
-    updateAt!: Date;
+  @Field()
+  createAt!: Date;
 
+  @Field()
+  updateAt!: Date;
 }

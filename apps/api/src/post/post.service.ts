@@ -10,12 +10,19 @@ export class PostService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
-    return await this.prisma.post.findMany();
+    return await this.prisma.post.findMany({
+      include: {
+        tags: true,
+      },
+    });
   }
 
   async findOne(id: number) {
     return await this.prisma.post.findUnique({
       where: { id },
+      include: {
+        tags: true,
+      },
     });
   }
 

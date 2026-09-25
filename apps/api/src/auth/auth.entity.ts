@@ -16,4 +16,7 @@ export class AuthUser {
 
   @Field({ nullable: true })
   avatar?: string | null;
+
+  @Field()
+  token!: string;
 }

@@ -35,6 +35,8 @@ export default function LoginPage() {
       return;
     }
 
+    const token = json.data.login.token;
+    localStorage.setItem('blog_token', token);
     setStatus(`Welcome ${json.data.login.name}`);
   }
 

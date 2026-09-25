@@ -13,9 +13,14 @@ export default function CreatePostPage() {
     event.preventDefault();
     setStatus('Creating post...');
 
+    const token = localStorage.getItem('blog_token');
+
     const res = await fetch('http://localhost:8000/graphql', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
       body: JSON.stringify({
         query: `
           mutation CreatePost($createPostDto: CreatePostDto!) {

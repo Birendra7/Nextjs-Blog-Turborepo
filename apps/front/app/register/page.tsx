@@ -38,6 +38,8 @@ export default function RegisterPage() {
       return;
     }
 
+    const token = json.data.register.token;
+    localStorage.setItem('blog_token', token);
     setStatus(`User created: ${json.data.register.name}`);
   }
 

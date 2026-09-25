@@ -209,23 +209,23 @@ export default function PostDetailPage({ params }: PostDetailProps) {
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-16">
-      <article className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <article className="rounded-[2rem] border border-[#111111]/10 bg-[#f5f1ea] p-8 shadow-[0_30px_80px_rgba(17,17,17,0.08)]">
         <div className="mb-6 flex items-center justify-between gap-4">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
+          <p className="text-[10px] font-medium uppercase tracking-[0.25em] text-[#111111]/60">
             {post.published ? 'Published' : 'Draft'}
           </p>
           <div className="flex gap-3">
             <button
               type="button"
               onClick={() => setIsEditing((value) => !value)}
-              className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:border-slate-400"
+              className="rounded-full border border-[#111111]/20 bg-transparent px-4 py-2 text-sm font-medium text-[#111111]"
             >
               {isEditing ? 'Cancel' : 'Edit'}
             </button>
             <button
               type="button"
               onClick={handleDeletePost}
-              className="rounded-full bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-500"
+              className="rounded-full bg-[#111111] px-4 py-2 text-sm font-medium text-[#f5f1ea]"
             >
               Delete
             </button>
@@ -237,61 +237,62 @@ export default function PostDetailPage({ params }: PostDetailProps) {
             <input
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className="w-full rounded-xl border border-slate-300 px-3 py-2.5 focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-2xl border border-[#111111]/15 bg-[#f5f1ea] px-4 py-3 text-[#111111] outline-none focus:border-[#111111]"
               placeholder="Title"
             />
             <input
               value={form.slug}
               onChange={(e) => setForm({ ...form, slug: e.target.value })}
-              className="w-full rounded-xl border border-slate-300 px-3 py-2.5 focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-2xl border border-[#111111]/15 bg-[#f5f1ea] px-4 py-3 text-[#111111] outline-none focus:border-[#111111]"
               placeholder="Slug"
             />
             <textarea
               rows={8}
               value={form.content}
               onChange={(e) => setForm({ ...form, content: e.target.value })}
-              className="w-full rounded-xl border border-slate-300 px-3 py-2.5 focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-2xl border border-[#111111]/15 bg-[#f5f1ea] px-4 py-3 text-[#111111] outline-none focus:border-[#111111]"
               placeholder="Content"
             />
-            <label className="flex items-center gap-2 text-sm text-slate-700">
+            <label className="flex items-center gap-3 text-sm text-[#111111]/80">
               <input
                 type="checkbox"
                 checked={form.published}
                 onChange={(e) => setForm({ ...form, published: e.target.checked })}
+                className="h-4 w-4 accent-[#111111]"
               />
               Publish this post
             </label>
             <button
               type="button"
               onClick={handleUpdatePost}
-              className="rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white hover:bg-slate-700"
+              className="rounded-full bg-[#111111] px-5 py-3 text-sm font-medium text-[#f5f1ea]"
             >
               Save changes
             </button>
           </div>
         ) : (
           <>
-            <h1 className="mb-6 text-4xl font-bold tracking-tight text-slate-900">{post.title}</h1>
-            <p className="mb-8 text-sm text-slate-500">{post.slug ?? 'untitled-post'}</p>
-            <div className="prose max-w-none text-slate-700">
+            <h1 className="mb-6 text-4xl font-semibold tracking-[-0.06em] text-[#111111]">{post.title}</h1>
+            <p className="mb-8 text-sm text-[#111111]/60">{post.slug ?? 'untitled-post'}</p>
+            <div className="prose max-w-none text-[#111111]/80">
               <p className="whitespace-pre-line leading-8">{post.content}</p>
             </div>
           </>
         )}
       </article>
 
-      <section className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-2xl font-semibold text-slate-900">Comments</h2>
+      <section className="mt-8 rounded-[2rem] border border-[#111111]/10 bg-[#f5f1ea] p-6 shadow-[0_18px_50px_rgba(17,17,17,0.05)]">
+        <h2 className="mb-4 text-2xl font-semibold text-[#111111]">Comments</h2>
         <div className="space-y-3">
           {filteredComments.length > 0 ? (
             filteredComments.map((comment) => (
-              <div key={comment.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                <p className="mb-1 text-sm font-medium text-slate-800">{comment.author?.name ?? 'Anonymous'}</p>
-                <p className="text-slate-600">{comment.content}</p>
+              <div key={comment.id} className="rounded-2xl border border-[#111111]/10 bg-[#111111] p-4 text-[#f5f1ea]">
+                <p className="mb-1 text-sm font-medium">{comment.author?.name ?? 'Anonymous'}</p>
+                <p className="text-[#f5f1ea]/80">{comment.content}</p>
               </div>
             ))
           ) : (
-            <p className="text-slate-500">No comments yet.</p>
+            <p className="text-[#111111]/60">No comments yet.</p>
           )}
         </div>
 
@@ -300,19 +301,19 @@ export default function PostDetailPage({ params }: PostDetailProps) {
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
             rows={4}
-            className="w-full rounded-xl border border-slate-300 px-3 py-2.5 focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-2xl border border-[#111111]/15 bg-[#f5f1ea] px-4 py-3 text-[#111111] outline-none focus:border-[#111111]"
             placeholder="Write a comment..."
           />
           <button
             type="button"
             onClick={handleCreateComment}
-            className="rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white hover:bg-slate-700"
+            className="rounded-full bg-[#111111] px-5 py-3 text-sm font-medium text-[#f5f1ea]"
           >
             Add comment
           </button>
         </div>
 
-        {status ? <p className="mt-4 text-sm text-slate-600">{status}</p> : null}
+        {status ? <p className="mt-4 text-sm text-[#111111]/70">{status}</p> : null}
       </section>
     </main>
   );

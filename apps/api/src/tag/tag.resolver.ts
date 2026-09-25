@@ -13,7 +13,7 @@ export class TagResolver {
     return this.tagService.create(createTagInput);
   }
 
-  @Query(() => [Tag], { name: 'tag' })
+  @Query(() => [Tag], { name: 'tags' })
   findAll() {
     return this.tagService.findAll();
   }

@@ -13,7 +13,7 @@ export class CommentResolver {
     return this.commentService.create(createCommentInput);
   }
 
-  @Query(() => [CommentEntity], { name: 'comment' })
+  @Query(() => [CommentEntity], { name: 'comments' })
   findAll() {
     return this.commentService.findAll();
   }

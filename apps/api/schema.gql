@@ -57,9 +57,13 @@ type Like {
 type Query {
   posts: [post!]!
   post(id: Int!): post
+  users: [User!]!
   user(id: Int!): User!
+  comments: [CommentEntity!]!
   comment(id: Int!): CommentEntity!
+  tags: [Tag!]!
   tag(id: Int!): Tag!
+  likes: [Like!]!
   like(id: Int!): Like!
 }
 
@@ -70,7 +74,6 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
-  CreateUser(CreateUserInput: CreateUserInput!): User!
   createComment(createCommentInput: CreateCommentInput!): CommentEntity!
   updateComment(updateCommentInput: UpdateCommentInput!): CommentEntity!
   removeComment(id: Int!): CommentEntity!

@@ -13,7 +13,7 @@ export class LikeResolver {
     return this.likeService.create(createLikeInput);
   }
 
-  @Query(() => [Like], { name: 'like' })
+  @Query(() => [Like], { name: 'likes' })
   findAll() {
     return this.likeService.findAll();
   }

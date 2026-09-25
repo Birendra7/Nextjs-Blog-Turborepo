@@ -13,7 +13,7 @@ export class UserResolver {
     return this.userService.create(createUserInput);
   }
 
-  @Query(() => [User], { name: 'user' })
+  @Query(() => [User], { name: 'users' })
   findAll() {
     return this.userService.findAll();
   }
@@ -32,10 +32,4 @@ export class UserResolver {
   removeUser(@Args('id', { type: () => Int }) id: number) {
     return this.userService.remove(id);
   }
-
-  @Mutation(() => User)
-  async CreateUser(@Args('CreateUserInput') createUserInput: CreateUserInput) {
-    return await this.userService.create(createUserInput);
-  }
-  
 }

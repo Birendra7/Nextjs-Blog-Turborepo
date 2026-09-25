@@ -86,7 +86,9 @@ export default async function Home() {
                 </p>
                 <div className="flex items-center justify-between border-t border-slate-200 pt-4 text-sm text-slate-500">
                   <span>{post.slug ?? "untitled-post"}</span>
-                  <span>Read more →</span>
+                  <a href={`/posts/${post.id}`} className="font-medium text-indigo-600 hover:text-indigo-500">
+                    Read more →
+                  </a>
                 </div>
               </article>
             ))

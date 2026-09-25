@@ -21,6 +21,9 @@ export default function LoginPage() {
               id
               name
               email
+              bio
+              avatar
+              token
             }
           }
         `,
@@ -38,6 +41,7 @@ export default function LoginPage() {
     const token = json.data.login.token;
     localStorage.setItem('blog_token', token);
     setStatus(`Welcome ${json.data.login.name}`);
+    window.location.href = '/profile';
   }
 
   return (

@@ -22,6 +22,9 @@ export default function RegisterPage() {
               id
               name
               email
+              bio
+              avatar
+              token
             }
           }
         `,
@@ -41,6 +44,7 @@ export default function RegisterPage() {
     const token = json.data.register.token;
     localStorage.setItem('blog_token', token);
     setStatus(`User created: ${json.data.register.name}`);
+    window.location.href = '/profile';
   }
 
   return (

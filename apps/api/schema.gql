@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Tag {
+  id: Int!
+  name: String!
+  posts: [post!]!
+}
+
 type post {
   id: Int!
   title: String!
@@ -9,6 +15,7 @@ type post {
   thumbnail: String
   content: String!
   published: Boolean!
+  tags: [Tag!]
   createAt: DateTime!
   updateAt: DateTime!
 }
@@ -37,12 +44,6 @@ type User {
   comments: [CommentEntity!]!
 }
 
-type Tag {
-  id: Int!
-  name: String!
-  posts: [post!]!
-}
-
 type Like {
   id: Int!
   User: [User!]!
@@ -54,10 +55,20 @@ type Like {
   comment: CommentEntity!
 }
 
+type AuthUser {
+  id: Int!
+  name: String!
+  email: String!
+  bio: String
+  avatar: String
+  token: String!
+}
+
 type Query {
   posts: [post!]!
   post(id: Int!): post
   users: [User!]!
+  me: User
   user(id: Int!): User!
   comments: [CommentEntity!]!
   comment(id: Int!): CommentEntity!
@@ -72,7 +83,7 @@ type Mutation {
   updatePost(id: Int!, updatePostDto: UpdatePostDto!): post!
   removePost(id: Int!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  updateUser(id: Int!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
   createComment(createCommentInput: CreateCommentInput!): CommentEntity!
   updateComment(updateCommentInput: UpdateCommentInput!): CommentEntity!
@@ -83,6 +94,8 @@ type Mutation {
   createLike(createLikeInput: CreateLikeInput!): Like!
   updateLike(updateLikeInput: UpdateLikeInput!): Like!
   removeLike(id: Int!): Like!
+  register(createUserInput: CreateUserInput!): AuthUser!
+  login(email: String!, password: String!): AuthUser!
 }
 
 input CreatePostDto {
@@ -91,7 +104,7 @@ input CreatePostDto {
   slug: String
   thumbnail: String
   published: Boolean!
-  authorId: Int!
+  authorId: Int
 }
 
 input UpdatePostDto {
@@ -121,24 +134,24 @@ input UpdateUserInput {
 }
 
 input CreateCommentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  content: String!
+  postId: Int!
+  authorId: Int
 }
 
 input UpdateCommentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  content: String
+  postId: Int
+  authorId: Int
   id: Int!
 }
 
 input CreateTagInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
 }
 
 input UpdateTagInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  name: String
   id: Int!
 }
 

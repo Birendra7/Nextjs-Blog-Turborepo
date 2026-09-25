@@ -53,9 +53,16 @@ export class UserService {
   }
 
   async update(id: number, updateUserInput: UpdateUserInput) {
+    const { id: _id, password, ...userData } = updateUserInput;
+    const payload: Record<string, unknown> = { ...userData };
+
+    if (password) {
+      payload.password = await hash(password);
+    }
+
     return await this.prisma.user.update({
       where: { id },
-      data: updateUserInput,
+      data: payload,
     });
   }
 

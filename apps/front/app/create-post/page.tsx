@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 export default function CreatePostPage() {
   const [title, setTitle] = useState('');
@@ -8,6 +8,15 @@ export default function CreatePostPage() {
   const [slug, setSlug] = useState('');
   const [published, setPublished] = useState(true);
   const [status, setStatus] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('blog_token');
+
+    if (!token) {
+      window.location.href = '/login';
+      return;
+    }
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

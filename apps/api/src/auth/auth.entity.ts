@@ -5,18 +5,18 @@ export class AuthUser {
   @Field(() => Int)
   id!: number;
 
-  @Field()
+  @Field(() => String)
   name!: string;
 
-  @Field()
+  @Field(() => String)
   email!: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   bio?: string | null;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   avatar?: string | null;
 
-  @Field()
+  @Field(() => String)
   token!: string;
 }

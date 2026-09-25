@@ -94,10 +94,22 @@ export default async function Home({
                 Thoughtful stories for modern minds.
               </h1>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="/create-post"
+                className="rounded-full border border-[#f5f1ea]/30 bg-transparent px-5 py-3 text-sm font-medium text-[#f5f1ea]"
+              >
+                Create Post
+              </a>
+              <a
+                href="/profile"
+                className="rounded-full border border-[#f5f1ea]/30 bg-transparent px-5 py-3 text-sm font-medium text-[#f5f1ea]"
+              >
+                Profile
+              </a>
               <a
                 href="/login"
-                className="rounded-full border border-[#f5f1ea]/30 bg-transparent px-5 py-3 text-sm font-medium text-[#f5f1ea]"
+                className="rounded-full bg-[#f5f1ea] px-5 py-3 text-sm font-medium text-[#111111]"
               >
                 Login
               </a>

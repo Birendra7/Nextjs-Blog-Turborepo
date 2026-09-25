@@ -32,4 +32,10 @@ export class UserResolver {
   removeUser(@Args('id', { type: () => Int }) id: number) {
     return this.userService.remove(id);
   }
+
+  @Mutation(() => User)
+  async CreateUser(@Args('CreateUserInput') createUserInput: CreateUserInput) {
+    return await this.userService.create(createUserInput);
+  }
+  
 }

@@ -70,6 +70,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  CreateUser(CreateUserInput: CreateUserInput!): User!
   createComment(createCommentInput: CreateCommentInput!): CommentEntity!
   updateComment(updateCommentInput: UpdateCommentInput!): CommentEntity!
   removeComment(id: Int!): CommentEntity!
@@ -100,13 +101,19 @@ input UpdatePostDto {
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  password: String!
+  email: String!
+  bio: String
+  avatar: String
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  name: String
+  password: String
+  email: String
+  bio: String
+  avatar: String
   id: Int!
 }
 

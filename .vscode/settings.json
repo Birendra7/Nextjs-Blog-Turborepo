@@ -1,3 +1,5 @@
 {
   "prisma.schema": "apps/api/prisma/schema.prisma"
 }
+
+/* https://www.youtube.com/watch?v=rsRglxTKbR0&t=3613s */

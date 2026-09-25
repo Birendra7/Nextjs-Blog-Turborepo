@@ -44,7 +44,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="mb-10 flex items-center justify-between gap-4">
+        <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
               Blog Platform
@@ -53,9 +53,20 @@ export default async function Home() {
               Fresh stories for modern readers
             </h1>
           </div>
-          <button className="rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-700">
-            Write a post
-          </button>
+          <div className="flex gap-3">
+            <a
+              href="/login"
+              className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-medium text-slate-900 transition hover:border-slate-400"
+            >
+              Login
+            </a>
+            <a
+              href="/register"
+              className="rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-700"
+            >
+              Register
+            </a>
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">

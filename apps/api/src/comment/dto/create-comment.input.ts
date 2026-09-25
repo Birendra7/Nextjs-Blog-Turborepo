@@ -8,6 +8,6 @@ export class CreateCommentInput {
   @Field(() => Int)
   postId: number;
 
-  @Field(() => Int)
-  authorId: number;
+  @Field(() => Int, { nullable: true })
+  authorId?: number;
 }

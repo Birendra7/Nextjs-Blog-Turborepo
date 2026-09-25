@@ -38,7 +38,6 @@ export default function CreatePostPage() {
             content,
             slug,
             published,
-            authorId: 1,
           },
         },
       }),

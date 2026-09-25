@@ -17,6 +17,6 @@ export class CreatePostDto {
   @Field(() => Boolean)
   published: boolean;
 
-  @Field(() => Int)
-  authorId: number;
+  @Field(() => Int, { nullable: true })
+  authorId?: number;
 }

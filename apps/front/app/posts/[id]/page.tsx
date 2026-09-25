@@ -123,7 +123,6 @@ export default function PostDetailPage({ params }: PostDetailProps) {
           createCommentInput: {
             content: commentText,
             postId: Number(id),
-            authorId: 1,
           },
         },
       }),

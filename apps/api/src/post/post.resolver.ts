@@ -1,8 +1,10 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
+import { ForbiddenException, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { PostService } from './post.service';
 import { post } from './entities/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { GqlAuthGuard } from '../auth/auth.guard';
 
 @Resolver(() => post)
 export class PostResolver {
@@ -19,20 +21,60 @@ export class PostResolver {
   }
 
   @Mutation(() => post)
-  createPost(@Args('createPostDto') createPostDto: CreatePostDto) {
-    return this.postService.create(createPostDto);
+  @UseGuards(GqlAuthGuard)
+  async createPost(@Args('createPostDto') createPostDto: CreatePostDto, @Context() context: any) {
+    const user = context.req.user;
+
+    if (!user?.id) {
+      throw new UnauthorizedException('User not authenticated');
+    }
+
+    const payload = {
+      ...createPostDto,
+      authorId: createPostDto.authorId ?? user.id,
+    } as CreatePostDto & { authorId: number };
+
+    return this.postService.create(payload);
   }
 
   @Mutation(() => post)
-  updatePost(
+  @UseGuards(GqlAuthGuard)
+  async updatePost(
     @Args('id', { type: () => Int }) id: number,
     @Args('updatePostDto') updatePostDto: UpdatePostDto,
+    @Context() context: any,
   ) {
-    return this.postService.update(id, updatePostDto);
+    const user = context.req.user;
+    const existing = await this.postService.findOne(id);
+
+    if (!existing) {
+      throw new Error('Post not found');
+    }
+
+    if (existing.authorId !== user.id) {
+      throw new ForbiddenException('You can only update your own posts');
+    }
+
+    return this.postService.update(id, {
+      ...updatePostDto,
+      authorId: user.id,
+    });
   }
 
   @Mutation(() => Boolean)
-  removePost(@Args('id', { type: () => Int }) id: number) {
+  @UseGuards(GqlAuthGuard)
+  async removePost(@Args('id', { type: () => Int }) id: number, @Context() context: any) {
+    const user = context.req.user;
+    const existing = await this.postService.findOne(id);
+
+    if (!existing) {
+      throw new Error('Post not found');
+    }
+
+    if (existing.authorId !== user.id) {
+      throw new ForbiddenException('You can only delete your own posts');
+    }
+
     return this.postService.remove(id);
   }
 }

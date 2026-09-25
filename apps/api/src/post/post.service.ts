@@ -3,10 +3,11 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
+type AuthenticatedCreatePostDto = CreatePostDto & { authorId: number };
+
 @Injectable()
 export class PostService {
-  
-  constructor(private prisma: PrismaService){}
+  constructor(private prisma: PrismaService) {}
 
   async findAll() {
     return await this.prisma.post.findMany();
@@ -18,13 +19,16 @@ export class PostService {
     });
   }
 
-  async create(createPostDto: CreatePostDto) {
+  async create(createPostDto: AuthenticatedCreatePostDto) {
     return await this.prisma.post.create({
-      data: createPostDto,
+      data: {
+        ...createPostDto,
+        authorId: createPostDto.authorId,
+      },
     });
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto) {
+  async update(id: number, updatePostDto: UpdatePostDto & { authorId?: number }) {
     return await this.prisma.post.update({
       where: { id },
       data: updatePostDto,
